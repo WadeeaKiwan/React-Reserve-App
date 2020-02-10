@@ -1,4 +1,4 @@
-import AccountHeader from "../components/Account/AccountHeader.tsx";
+import AccountHeader from "../components/Account/AccountHeader";
 
 const Account = () => (
   <>

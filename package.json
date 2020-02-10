@@ -2,11 +2,16 @@
   "name": "react-reserve-app",
   "version": "0.1.0",
   "private": true,
+  "description": "Project for MERN Stack - The Complete Guide",
+  "main": "index.tsx",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
+  "keywords": [],
+  "author": "Wadeea Kiwan",
+  "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
     "bcrypt": "^3.0.8",
