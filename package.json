@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "type-check": "tsc"
   },
   "keywords": [],
   "author": "Wadeea Kiwan",
@@ -31,8 +32,11 @@
     "validator": "^12.2.0"
   },
   "devDependencies": {
+    "@types/next": "^9.0.0",
     "@types/node": "^13.7.0",
     "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
+    "@zeit/next-typescript": "^1.1.1",
     "typescript": "^3.7.5"
   }
 }
