@@ -1,7 +1,7 @@
 import { Item, Label } from "semantic-ui-react";
 import AddProductToCart from "./AddProductToCart";
 
-const ProductSummary = ({ name, mediaUrl, price, sku, _id }) => (
+const ProductSummary = ({ name, mediaUrl, price, sku }) => (
   <Item.Group>
     <Item>
       <Item.Image size='medium' src={mediaUrl} />
