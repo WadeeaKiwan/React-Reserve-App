@@ -1,3 +1,19 @@
-const Product = () => <>Product</>;
+import axios from "axios";
+
+const Product = ({ product }) => {
+  console.log(product);
+
+  return <>Product</>;
+};
+
+Product.getInitialProps = async ({ query: { _id } }) => {
+  // const url = `http://localhost:3000/api/product?_id=${_id}`;
+  const url = "http://localhost:3000/api/product";
+  const payload = { params: { _id } };
+  const response = await axios.get(url, payload);
+  return {
+    product: response.data
+  };
+};
 
 export default Product;
