@@ -9,7 +9,7 @@ import NProgress from "nprogress";
 
 const Header = () => {
   const router = useRouter();
-  const user = true;
+  const user = false;
 
   const isActive = route => {
     return route === router.pathname;
