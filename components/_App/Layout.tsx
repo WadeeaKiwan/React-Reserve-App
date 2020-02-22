@@ -4,7 +4,7 @@ import { Container } from "semantic-ui-react";
 import Header from "./Header";
 import HeadContent from "./HeadContent";
 
-const Layout = ({ children }) => (
+const Layout = ({ children, user }) => (
   <>
     <Head>
       <HeadContent />
@@ -21,7 +21,7 @@ const Layout = ({ children }) => (
       /> */}
       <title>ReactReserveApp</title>
     </Head>
-    <Header />
+    <Header user={user} />
     <Container text styles={{ paddingTop: "1em" }}>
       {children}
     </Container>

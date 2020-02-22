@@ -7,9 +7,9 @@ import NProgress from "nprogress";
 (Router as any).onRouteChangeComplete = () => NProgress.done();
 (Router as any).onRouteChangeError = () => NProgress.done();
 
-const Header = () => {
+const Header = ({ user }) => {
+  console.log(user);
   const router = useRouter();
-  const user = false;
 
   const isActive = route => {
     return route === router.pathname;
