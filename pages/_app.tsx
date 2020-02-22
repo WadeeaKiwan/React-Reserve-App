@@ -4,6 +4,7 @@ import { parseCookies, destroyCookie } from "nookies";
 import { redirectUser } from "../utils/auth";
 import baseUrl from "../utils/baseUrl";
 import axios from "axios";
+import Router from "next/router";
 
 interface PageProps {
   user: Object;
@@ -49,6 +50,19 @@ class MyApp extends App {
 
     return { pageProps };
   }
+
+  // Listen to storage on other opened pages to log out at the same time
+  componentDidMount() {
+    window.addEventListener("storage", this.syncLogout);
+  }
+
+  // Redirect to 'login' page when logging out
+  syncLogout = event => {
+    if (event.key === "logout") {
+      console.log("Logged out from storage");
+      Router.push("/login");
+    }
+  };
 
   render() {
     const { Component, pageProps } = this.props;

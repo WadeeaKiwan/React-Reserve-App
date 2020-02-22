@@ -15,7 +15,9 @@ export const redirectUser = (ctx, location) => {
   }
 };
 
-export const handleLogout = token => {
+export const handleLogout = () => {
   cookie.remove("token");
+  // To logout from all opened windows
+  window.localStorage.setItem("logout", (Date as any).now());
   Router.push("/login");
 };

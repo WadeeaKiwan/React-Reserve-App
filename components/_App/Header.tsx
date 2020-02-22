@@ -9,7 +9,6 @@ import { handleLogout } from "../../utils/auth";
 (Router as any).onRouteChangeError = () => NProgress.done();
 
 const Header = ({ user }) => {
-  console.log(user);
   const router = useRouter();
   const isRoot = user && user.role === "root";
   const isAdmin = user && user.role === "admin";
