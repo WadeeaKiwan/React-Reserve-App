@@ -2,6 +2,7 @@
 import Product from "../../models/Product";
 import connectDb from "../../utils/connectDb";
 
+// Ensure that the database is connected while posting a request
 connectDb();
 
 export default async (req, res) => {

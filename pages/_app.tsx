@@ -6,15 +6,11 @@ import baseUrl from "../utils/baseUrl";
 import axios from "axios";
 import Router from "next/router";
 
-interface PageProps {
-  user: Object;
-}
-
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     const { token } = parseCookies(ctx);
 
-    let pageProps: PageProps = { user: {} };
+    let pageProps;
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
@@ -33,6 +29,7 @@ class MyApp extends App {
         const user = response.data;
         const isRoot = user.role === "root";
         const isAdmin = user.role === "admin";
+
         // If authenticated, but not role 'admin' or 'root', redirect from '/create' page
         const isNotPermitted = !(isRoot || isAdmin) && ctx.pathname === "/create";
         if (isNotPermitted) {
