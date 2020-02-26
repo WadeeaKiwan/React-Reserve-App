@@ -33,10 +33,12 @@ const handleGetRequest = async (req, res) => {
 
   try {
     const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+
     const cart = await Cart.findOne({ user: userId }).populate({
       path: "products.product",
       model: "Product"
     });
+
     res.status(200).json(cart.products);
   } catch (error) {
     console.error(error);
@@ -86,6 +88,7 @@ const handleDeleteRequest = async (req, res) => {
 
   try {
     const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+
     const cart = await Cart.findOneAndUpdate(
       { user: userId },
       { $pull: { products: { product: productId } } },
@@ -94,6 +97,7 @@ const handleDeleteRequest = async (req, res) => {
       path: "products.product",
       ref: "Product"
     });
+
     res.status(200).json(cart.products);
   } catch (error) {
     console.error(error);

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const connection = {};
+const connection: any = {};
 
 const connectDb = async () => {
   if (connection.isConnected) {

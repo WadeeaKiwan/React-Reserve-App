@@ -18,7 +18,6 @@ const AccountPermissions = () => {
     const payload = { headers: { Authorization: token } };
     const response = await axios.get(url, payload);
     setUsers(response.data);
-    console.log(response.data);
   };
 
   return (
@@ -70,8 +69,7 @@ const UserPermission = ({ user }) => {
   const updatePermission = async () => {
     const url = `${baseUrl}/api/account`;
     const payload = { _id: user._id, role: admin ? "admin" : "user" };
-    const response = await axios.put(url, payload);
-    console.log(response.data);
+    await axios.put(url, payload);
   };
 
   return (

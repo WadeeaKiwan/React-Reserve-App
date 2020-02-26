@@ -25,7 +25,9 @@ export default async (req, res) => {
 const handleGetRequest = async (req, res) => {
   try {
     const { _id } = req.query;
+
     const product = await Product.findOne({ _id });
+
     res.status(200).json(product);
   } catch (error) {
     console.error(error);
@@ -39,12 +41,14 @@ const handlePostRequest = async (req, res) => {
     if (!name || !price || !description || !mediaUrl) {
       return res.status(422).send("Product missing one or more fields");
     }
+
     const product = await new Product({
       name,
       price,
       description,
       mediaUrl
     }).save();
+
     res.status(201).json(product);
   } catch (error) {
     console.error(error);
