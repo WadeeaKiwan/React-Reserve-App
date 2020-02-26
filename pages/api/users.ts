@@ -9,7 +9,7 @@ export default async (req, res) => {
   try {
     const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
 
-    const users = await User.find({ _id: { $ne: userId } });
+    const users = await User.find({ _id: { $ne: userId } }).sort({ role: "asc" }); // same as sort({ role: 1 })
 
     res.status(200).json(users);
   } catch (error) {
