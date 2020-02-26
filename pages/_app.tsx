@@ -10,7 +10,7 @@ class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     const { token } = parseCookies(ctx);
 
-    let pageProps;
+    let pageProps: any = {};
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
