@@ -3,6 +3,7 @@ import baseUrl from "../../utils/baseUrl";
 import axios from "axios";
 import cookie from "js-cookie";
 import { Header, Checkbox, Table, Icon } from "semantic-ui-react";
+import formatDate from "../../utils/formatData";
 
 const AccountPermissions = () => {
   const [users, setUsers] = React.useState([]);
@@ -80,8 +81,8 @@ const UserPermission = ({ user }) => {
       </Table.Cell>
       <Table.Cell>{user.name}</Table.Cell>
       <Table.Cell>{user.email}</Table.Cell>
-      <Table.Cell>{user.createdAt}</Table.Cell>
-      <Table.Cell>{user.updatedAt}</Table.Cell>
+      <Table.Cell>{formatDate(user.createdAt)}</Table.Cell>
+      <Table.Cell>{formatDate(user.updatedAt)}</Table.Cell>
       <Table.Cell>{admin ? "admin" : "user"}</Table.Cell>
     </Table.Row>
   );
