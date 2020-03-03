@@ -1,5 +1,5 @@
-const catchErrors = (error, displayError) => {
-  let errorMsg;
+const catchErrors = (error: any, displayError: Function): void => {
+  let errorMsg: string;
   if (error.response) {
     // The request was made and the server responded with a status that is not in the range of 2XX
     errorMsg = error.response.data;

@@ -1,20 +1,22 @@
 import { Menu, Container, Image, Icon } from "semantic-ui-react";
 import Link from "next/link";
-import Router, { useRouter } from "next/router";
+import Router, { useRouter, NextRouter } from "next/router";
 import NProgress from "nprogress";
 import { handleLogout } from "../../utils/auth";
+
+import { IUser } from "../../models/User";
 
 (Router as any).onRouteChangeStart = () => NProgress.start();
 (Router as any).onRouteChangeComplete = () => NProgress.done();
 (Router as any).onRouteChangeError = () => NProgress.done();
 
-const Header = ({ user }) => {
-  const router = useRouter();
-  const isRoot = user && user.role === "root";
-  const isAdmin = user && user.role === "admin";
-  const isRootOrAdmin = isRoot || isAdmin;
+const Header = ({ user }: { user: IUser }) => {
+  const router: NextRouter = useRouter();
+  const isRoot: boolean = user && user.role === "root";
+  const isAdmin: boolean = user && user.role === "admin";
+  const isRootOrAdmin: boolean = isRoot || isAdmin;
 
-  const isActive = route => {
+  const isActive = (route: any): boolean => {
     return route === router.pathname;
   };
 

@@ -1,6 +1,8 @@
 import { Card } from "semantic-ui-react";
 
-const ProductList = ({ products }) => {
+import { IProduct } from "../../models/Product";
+
+const ProductList = ({ products }: { products: IProduct[] }) => {
   const mapProductsToItems = products => {
     return products.map(product => ({
       header: product.name,

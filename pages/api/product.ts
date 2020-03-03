@@ -2,10 +2,12 @@ import Product from "../../models/Product";
 import Cart from "../../models/Cart";
 import connectDb from "../../utils/connectDb";
 
+import { IProduct } from "../../models/Product";
+
 // Ensure that the database is connected while posting a request
 connectDb();
 
-export default async (req, res) => {
+export default async (req: any, res: any): Promise<void> => {
   switch (req.method) {
     case "GET":
       await handleGetRequest(req, res);
@@ -22,11 +24,11 @@ export default async (req, res) => {
   }
 };
 
-const handleGetRequest = async (req, res) => {
+const handleGetRequest = async (req: any, res: any): Promise<void> => {
   try {
-    const { _id } = req.query;
+    const { _id }: { _id: string } = req.query;
 
-    const product = await Product.findOne({ _id });
+    const product: IProduct = await Product.findOne({ _id });
 
     res.status(200).json(product);
   } catch (error) {
@@ -35,14 +37,19 @@ const handleGetRequest = async (req, res) => {
   }
 };
 
-const handlePostRequest = async (req, res) => {
-  const { name, price, description, mediaUrl } = req.body;
+const handlePostRequest = async (req: any, res: any): Promise<void> => {
+  const {
+    name,
+    price,
+    description,
+    mediaUrl
+  }: { name: string; price: number; description: string; mediaUrl: string } = req.body;
   try {
     if (!name || !price || !description || !mediaUrl) {
       return res.status(422).send("Product missing one or more fields");
     }
 
-    const product = await new Product({
+    const product: IProduct = await new Product({
       name,
       price,
       description,
@@ -56,9 +63,9 @@ const handlePostRequest = async (req, res) => {
   }
 };
 
-const handleDeleteRequest = async (req, res) => {
+const handleDeleteRequest = async (req: any, res: any): Promise<void> => {
   try {
-    const { _id } = req.query;
+    const { _id }: { _id: string } = req.query;
 
     // 1) Delete product by id
     await Product.findOneAndDelete({ _id });

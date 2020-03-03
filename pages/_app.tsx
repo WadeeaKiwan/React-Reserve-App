@@ -3,12 +3,14 @@ import Layout from "../components/_App/Layout";
 import { parseCookies, destroyCookie } from "nookies";
 import { redirectUser } from "../utils/auth";
 import baseUrl from "../utils/baseUrl";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import Router from "next/router";
 
+import { IUser } from "../models/User";
+
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    const { token } = parseCookies(ctx);
+  static async getInitialProps({ Component, ctx }): Promise<{ pageProps: any }> {
+    const { token }: { [token: string]: string } = parseCookies(ctx);
 
     let pageProps: any = {};
 
@@ -17,21 +19,23 @@ class MyApp extends App {
     }
 
     if (!token) {
-      const isProtectedRoute = ctx.pathname === "/account" || ctx.pathname === "/create";
+      const isProtectedRoute: boolean = ctx.pathname === "/account" || ctx.pathname === "/create";
       if (isProtectedRoute) {
         redirectUser(ctx, "/login");
       }
     } else {
       try {
-        const payload = { headers: { Authorization: token } };
-        const url = `${baseUrl}/api/account`;
-        const response = await axios.get(url, payload);
-        const user = response.data;
-        const isRoot = user.role === "root";
-        const isAdmin = user.role === "admin";
+        const payload: { headers: { Authorization: string } } = {
+          headers: { Authorization: token }
+        };
+        const url: string = `${baseUrl}/api/account`;
+        const response: AxiosResponse<any> = await axios.get(url, payload);
+        const user: IUser = response.data;
+        const isRoot: boolean = user.role === "root";
+        const isAdmin: boolean = user.role === "admin";
 
         // If authenticated, but not role 'admin' or 'root', redirect from '/create' page
-        const isNotPermitted = !(isRoot || isAdmin) && ctx.pathname === "/create";
+        const isNotPermitted: boolean = !(isRoot || isAdmin) && ctx.pathname === "/create";
         if (isNotPermitted) {
           redirectUser(ctx, "/");
         }
@@ -49,12 +53,12 @@ class MyApp extends App {
   }
 
   // Listen to storage on other opened pages to log out at the same time
-  componentDidMount() {
+  componentDidMount(): void {
     window.addEventListener("storage", this.syncLogout);
   }
 
   // Redirect to 'login' page when logging out
-  syncLogout = event => {
+  syncLogout = (event): void => {
     if (event.key === "logout") {
       console.log("Logged out from storage");
       Router.push("/login");

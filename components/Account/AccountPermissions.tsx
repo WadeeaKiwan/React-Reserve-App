@@ -1,9 +1,11 @@
 import React from "react";
 import baseUrl from "../../utils/baseUrl";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import cookie from "js-cookie";
 import { Header, Checkbox, Table, Icon } from "semantic-ui-react";
 import formatDate from "../../utils/formatData";
+
+import { IUser } from "../../models/User";
 
 const AccountPermissions = () => {
   const [users, setUsers] = React.useState([]);
@@ -12,11 +14,11 @@ const AccountPermissions = () => {
     getUsers();
   }, []);
 
-  const getUsers = async () => {
-    const url = `${baseUrl}/api/users`;
-    const token = cookie.get("token");
-    const payload = { headers: { Authorization: token } };
-    const response = await axios.get(url, payload);
+  const getUsers = async (): Promise<void> => {
+    const url: string = `${baseUrl}/api/users`;
+    const token: string = cookie.get("token");
+    const payload: { headers: { Authorization: string } } = { headers: { Authorization: token } };
+    const response: AxiosResponse<any> = await axios.get(url, payload);
     setUsers(response.data);
   };
 
@@ -48,7 +50,7 @@ const AccountPermissions = () => {
   );
 };
 
-const UserPermission = ({ user }) => {
+const UserPermission = ({ user }: { user: IUser }) => {
   const [admin, setAdmin] = React.useState(user.role === "admin");
 
   // To prevent checking role when the component mounted
@@ -62,13 +64,16 @@ const UserPermission = ({ user }) => {
     updatePermission();
   }, [admin]);
 
-  const handleChangePermission = () => {
+  const handleChangePermission = (): void => {
     setAdmin(prevState => !prevState);
   };
 
-  const updatePermission = async () => {
-    const url = `${baseUrl}/api/account`;
-    const payload = { _id: user._id, role: admin ? "admin" : "user" };
+  const updatePermission = async (): Promise<void> => {
+    const url: string = `${baseUrl}/api/account`;
+    const payload: { _id: string; role: string } = {
+      _id: user._id,
+      role: admin ? "admin" : "user"
+    };
     await axios.put(url, payload);
   };
 

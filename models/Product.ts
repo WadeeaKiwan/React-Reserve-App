@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
 import shortid from "shortid";
 
+export interface IProduct extends mongoose.Document {
+  name: string;
+  price: number;
+  sku: string;
+  description: string;
+  mediaUrl: string;
+}
+
 const ProductSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -25,4 +33,4 @@ const ProductSchema = new mongoose.Schema({
   }
 });
 
-export default mongoose.models.Product || mongoose.model("Product", ProductSchema);
+export default mongoose.models.Product || mongoose.model<IProduct>("Product", ProductSchema);

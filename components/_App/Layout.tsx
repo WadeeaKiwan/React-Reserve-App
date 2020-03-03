@@ -4,7 +4,9 @@ import { Container } from "semantic-ui-react";
 import Header from "./Header";
 import HeadContent from "./HeadContent";
 
-const Layout = ({ children, user }) => (
+import { IUser } from "../../models/User";
+
+const Layout = ({ children, user }: { children: any; user: IUser }) => (
   <>
     <Head>
       <HeadContent />

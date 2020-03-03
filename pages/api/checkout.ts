@@ -5,19 +5,24 @@ import Cart from "../../models/Cart";
 import Order from "../../models/Order";
 import calculateCartTotal from "../../utils/calculateCartTotal";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+import { ICart } from "../../models/Cart";
+
+const stripe: Stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2019-12-03"
 });
 
-export default async (req, res) => {
+export default async (req: any, res: any): Promise<void> => {
   const { paymentData } = req.body;
 
   try {
     // 1) Verify and get user id from token
-    const { userId } = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+    const { userId }: { userId: string } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
 
     // 2) Find cart based on user id, populate it
-    const cart = await Cart.findOne({ user: userId }).populate({
+    const cart: ICart = await Cart.findOne({ user: userId }).populate({
       path: "products.product",
       model: "Product"
     });
@@ -31,10 +36,10 @@ export default async (req, res) => {
       limit: 1
     });
 
-    const isExistingCustomer = prevCustomer.data.length > 0;
+    const isExistingCustomer: boolean = prevCustomer.data.length > 0;
 
     // 5) If not existing customer, create them based on their email
-    let newCustomer;
+    let newCustomer: { email: string; source?: string; id: string };
     if (!isExistingCustomer) {
       newCustomer = await stripe.customers.create({
         email: paymentData.email,
@@ -42,7 +47,7 @@ export default async (req, res) => {
       });
     }
 
-    const customer = (isExistingCustomer && prevCustomer.data[0].id) || newCustomer.id;
+    const customer: string = (isExistingCustomer && prevCustomer.data[0].id) || newCustomer.id;
 
     // 6) Create charge with total, send receipt email
     const charge = await stripe.charges.create(
