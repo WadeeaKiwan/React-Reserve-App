@@ -2,11 +2,17 @@ import React from "react";
 import { Button, Form, Icon, Segment, Message } from "semantic-ui-react";
 import Link from "next/link";
 import catchErrors from "../utils/catchErrors";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import baseUrl from "../utils/baseUrl";
 import { handleLogin } from "../utils/auth";
 
-const INITIAL_USER = {
+interface INITIAL_USER_DATA {
+  name: string;
+  email: string;
+  password: string;
+}
+
+const INITIAL_USER: INITIAL_USER_DATA = {
   name: "",
   email: "",
   password: ""
@@ -19,24 +25,24 @@ const SignUp = () => {
   const [error, setError] = React.useState("");
 
   React.useEffect(() => {
-    const isUser = Object.values(user).every(el => Boolean(el));
+    const isUser: boolean = Object.values(user).every(el => Boolean(el));
     isUser ? setDisabled(false) : setDisabled(true);
   }, [user]);
 
-  const handleChange = event => {
+  const handleChange = (event: any): void => {
     const { name, value } = event.target;
     setUser(pervState => ({ ...pervState, [name]: value }));
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event: any): Promise<void> => {
     event.preventDefault();
     try {
       setLoading(true);
       setError("");
-      const url = `${baseUrl}/api/signup`;
+      const url: string = `${baseUrl}/api/signup`;
       const payload = { ...user };
-      const response = await axios.post(url, payload);
-      handleLogin(response.data);
+      const response: AxiosResponse<any> = await axios.post(url, payload);
+      handleLogin(response.data as string);
     } catch (error) {
       catchErrors(error, setError);
     } finally {

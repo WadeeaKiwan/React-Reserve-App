@@ -1,12 +1,12 @@
 import cookie from "js-cookie";
 import Router from "next/router";
 
-export const handleLogin = token => {
+export const handleLogin = (token: string): void => {
   cookie.set("token", token);
   Router.push("/account");
 };
 
-export const redirectUser = (ctx, location) => {
+export const redirectUser = (ctx: { req: any; res: any }, location: string): void => {
   if (ctx.req) {
     ctx.res.writeHead(302, { Location: location });
     ctx.res.end();
@@ -15,7 +15,7 @@ export const redirectUser = (ctx, location) => {
   }
 };
 
-export const handleLogout = () => {
+export const handleLogout = (): void => {
   cookie.remove("token");
   // To logout from all opened windows
   window.localStorage.setItem("logout", (Date as any).now());

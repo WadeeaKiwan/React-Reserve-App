@@ -1,9 +1,12 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import ProductSummary from "../components/Product/ProductSummary";
 import ProductAttributes from "../components/Product/ProductAttributes";
 import baseUrl from "../utils/baseUrl";
 
-const Product = ({ product, user }) => {
+import { IUser } from "../models/User";
+import { IProduct } from "../models/Product";
+
+const Product = ({ product, user }: { product: IProduct; user: IUser }) => {
   return (
     <>
       <ProductSummary user={user} {...product} />
@@ -12,11 +15,15 @@ const Product = ({ product, user }) => {
   );
 };
 
-Product.getInitialProps = async ({ query: { _id } }) => {
+Product.getInitialProps = async ({
+  query: { _id }
+}: {
+  query: { _id: string };
+}): Promise<{ product: IProduct }> => {
   // const url = `http://localhost:3000/api/product?_id=${_id}`;
-  const url = `${baseUrl}/api/product`;
-  const payload = { params: { _id } };
-  const response = await axios.get(url, payload);
+  const url: string = `${baseUrl}/api/product`;
+  const payload: { params: { _id: string } } = { params: { _id } };
+  const response: AxiosResponse<any> = await axios.get(url, payload);
   return {
     product: response.data
   };

@@ -1,16 +1,18 @@
 import React from "react";
 import { Input } from "semantic-ui-react";
-import { useRouter } from "next/router";
+import { useRouter, NextRouter } from "next/router";
 import axios from "axios";
 import baseUrl from "../../utils/baseUrl";
 import catchErrors from "../../utils/catchErrors";
 import cookie from "js-cookie";
 
-const AddProductToCart = ({ user, productId }) => {
+import { IUser } from "../../models/User";
+
+const AddProductToCart = ({ user, productId }: { user: IUser; productId: string }) => {
   const [quantity, setQuantity] = React.useState(1);
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
-  const router = useRouter();
+  const router: NextRouter = useRouter();
 
   React.useEffect(() => {
     let timeout;
@@ -24,17 +26,17 @@ const AddProductToCart = ({ user, productId }) => {
     };
   }, [success]);
 
-  const handleQuantity = event => {
+  const handleQuantity = (event: any): void => {
     setQuantity(Number(event.target.value));
   };
 
-  const handleAddProductToCart = async () => {
+  const handleAddProductToCart = async (): Promise<void> => {
     try {
       setLoading(true);
-      const url = `${baseUrl}/api/cart`;
-      const payload = { quantity, productId };
-      const token = cookie.get("token");
-      const headers = { headers: { Authorization: token } };
+      const url: string = `${baseUrl}/api/cart`;
+      const payload: { quantity: number; productId: string } = { quantity, productId };
+      const token: string = cookie.get("token");
+      const headers: { headers: { Authorization: string } } = { headers: { Authorization: token } };
       await axios.put(url, payload, headers);
       setSuccess(true);
     } catch (error) {

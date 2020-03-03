@@ -2,19 +2,29 @@ import React from "react";
 import { Header, Button, Modal } from "semantic-ui-react";
 import axios from "axios";
 import baseUrl from "../../utils/baseUrl";
-import { useRouter } from "next/router";
+import { useRouter, NextRouter } from "next/router";
 
-const ProductAttributes = ({ description, _id, user }) => {
+import { IUser } from "../../models/User";
+
+const ProductAttributes = ({
+  description,
+  _id,
+  user
+}: {
+  description: string;
+  _id: string;
+  user: IUser;
+}) => {
   const [modal, setModal] = React.useState(false);
-  const router = useRouter();
+  const router: NextRouter = useRouter();
 
-  const isRoot = user && user.role === "root";
-  const isAdmin = user && user.role === "admin";
-  const isRootOrAdmin = isRoot || isAdmin;
+  const isRoot: boolean = user && user.role === "root";
+  const isAdmin: boolean = user && user.role === "admin";
+  const isRootOrAdmin: boolean = isRoot || isAdmin;
 
-  const handleDelete = async () => {
-    const url = `${baseUrl}/api/product`;
-    const payload = { params: { _id } };
+  const handleDelete = async (): Promise<void> => {
+    const url: string = `${baseUrl}/api/product`;
+    const payload: { params: { _id: string } } = { params: { _id } };
     await axios.delete(url, payload);
     router.push("/");
   };

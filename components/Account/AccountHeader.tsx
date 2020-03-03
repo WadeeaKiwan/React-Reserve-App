@@ -1,7 +1,17 @@
 import { Header, Icon, Segment, Label } from "semantic-ui-react";
 import formatDate from "../../utils/formatData";
 
-const AccountHeader = ({ role, email, name, createdAt }) => {
+const AccountHeader = ({
+  role,
+  email,
+  name,
+  createdAt
+}: {
+  role: string;
+  email: string;
+  name: string;
+  createdAt: Date;
+}) => {
   return (
     <Segment secondary inverted color='violet'>
       <Label

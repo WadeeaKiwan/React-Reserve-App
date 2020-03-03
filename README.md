@@ -2,6 +2,8 @@
 
 This is an E-commerce React App build with Next.js to render react on the server. And Deployed on ZEIT with now commands.
 
+In addition to integrate type annotations with `TypeScript` which is a superset of `JavaScript`
+
 # To Start:
 
 ## Install the required packages by the following command:

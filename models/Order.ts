@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
 
+import { IProduct } from "./Product";
+
+export interface IOrder extends mongoose.Document {
+  user: string;
+  products: [{ quantity: number; product: IProduct }];
+  email: string;
+  total: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 const OrderSchema = new mongoose.Schema(
   {
     user: {
@@ -32,4 +43,4 @@ const OrderSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.Order || mongoose.model("Order", OrderSchema);
+export default mongoose.models.Order || mongoose.model<IOrder>("Order", OrderSchema);

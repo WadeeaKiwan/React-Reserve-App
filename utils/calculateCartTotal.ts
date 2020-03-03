@@ -1,4 +1,9 @@
-const calculateCartTotal = products => {
+import { IProduct } from "../models/Product";
+import { ICart } from "../models/Cart";
+
+const calculateCartTotal = (
+  products: ICart["products"]
+): { cartTotal: number; stripeTotal: number } => {
   const total = products.reduce((acc, el) => {
     acc += el.product.price * el.quantity;
     return acc;

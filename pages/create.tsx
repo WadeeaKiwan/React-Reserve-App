@@ -1,10 +1,17 @@
 import React from "react";
 import { Form, Input, TextArea, Button, Image, Message, Header, Icon } from "semantic-ui-react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import baseUrl from "../utils/baseUrl";
 import catchErrors from "../utils/catchErrors";
 
-const INITIAL_PRODUCT = {
+interface INITIAL_PRODUCT_DATA {
+  name: string;
+  price: string;
+  media: string;
+  description: string;
+}
+
+const INITIAL_PRODUCT: INITIAL_PRODUCT_DATA = {
   name: "",
   price: "",
   media: "",
@@ -20,11 +27,11 @@ const CreateProduct = () => {
   const [error, setError] = React.useState("");
 
   React.useEffect(() => {
-    const isProduct = Object.values(product).every(el => Boolean(el));
+    const isProduct: boolean = Object.values(product).every(el => Boolean(el));
     isProduct ? setDisabled(false) : setDisabled(true);
   }, [product]);
 
-  const handleChange = event => {
+  const handleChange = (event: any): void => {
     const { name, value, files } = event.target;
     if (name === "media") {
       setProduct(prevState => ({ ...prevState, media: files[0] }));
@@ -34,26 +41,26 @@ const CreateProduct = () => {
     }
   };
 
-  const handleImageUpload = async () => {
-    const data = new FormData();
+  const handleImageUpload = async (): Promise<any> => {
+    const data: FormData = new FormData();
     data.append("file", product.media);
     data.append("upload_preset", "reactreserveapp");
     data.append("cloud_name", "mycodes");
-    const response = await axios.post(process.env.CLOUDINARY_URL, data);
-    const mediaUrl = response.data.url;
+    const response: AxiosResponse<any> = await axios.post(process.env.CLOUDINARY_URL, data);
+    const mediaUrl: string = response.data.url;
     return mediaUrl;
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event: any): Promise<void> => {
     try {
       event.preventDefault();
       setLoading(true);
       setError("");
-      const mediaUrl = await handleImageUpload();
-      const url = `${baseUrl}/api/product`;
+      const mediaUrl: string = await handleImageUpload();
+      const url: string = `${baseUrl}/api/product`;
       const { name, price, description } = product;
       const payload = { name, price, description, mediaUrl };
-      const response = await axios.post(url, payload);
+      await axios.post(url, payload);
       setProduct(INITIAL_PRODUCT);
       setSuccess(true);
     } catch (error) {

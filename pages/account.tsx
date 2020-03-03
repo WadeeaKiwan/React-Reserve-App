@@ -3,9 +3,12 @@ import AccountOrders from "../components/Account/AccountOrders";
 import AccountPermissions from "../components/Account/AccountPermissions";
 import { parseCookies } from "nookies";
 import baseUrl from "../utils/baseUrl";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
-const Account = ({ user, orders }) => {
+import { IUser } from "../models/User";
+import { IOrder } from "../models/Order";
+
+const Account = ({ user, orders }: { user: IUser; orders: [IOrder] }) => {
   return (
     <>
       <AccountHeader {...user} />
@@ -15,15 +18,15 @@ const Account = ({ user, orders }) => {
   );
 };
 
-Account.getInitialProps = async ctx => {
-  const { token } = parseCookies(ctx);
+Account.getInitialProps = async (ctx: any): Promise<[IOrder] | { orders: any[] }> => {
+  const { token }: { [token: string]: string } = parseCookies(ctx);
   if (!token) {
     return { orders: [] };
   }
 
-  const payload = { headers: { Authorization: token } };
-  const url = `${baseUrl}/api/orders`;
-  const response = await axios.get(url, payload);
+  const payload: { headers: { Authorization: string } } = { headers: { Authorization: token } };
+  const url: string = `${baseUrl}/api/orders`;
+  const response: AxiosResponse<[any]> = await axios.get(url, payload);
   return response.data;
 };
 

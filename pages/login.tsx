@@ -3,10 +3,15 @@ import { Button, Form, Icon, Segment, Message } from "semantic-ui-react";
 import Link from "next/link";
 import catchErrors from "../utils/catchErrors";
 import baseUrl from "../utils/baseUrl";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { handleLogin } from "../utils/auth";
 
-const INITIAL_USER = {
+interface INITIAL_USER_DATA {
+  email: string;
+  password: string;
+}
+
+const INITIAL_USER: INITIAL_USER_DATA = {
   email: "",
   password: ""
 };
@@ -22,21 +27,21 @@ const Login = () => {
     isUser ? setDisabled(false) : setDisabled(true);
   }, [user]);
 
-  const handleChange = event => {
+  const handleChange = (event: any): void => {
     const { name, value } = event.target;
     setUser(pervState => ({ ...pervState, [name]: value }));
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event: any): Promise<void> => {
     event.preventDefault();
     try {
       setLoading(true);
       setError("");
       // Make request to Login user
-      const url = `${baseUrl}/api/login`;
+      const url: string = `${baseUrl}/api/login`;
       const payload = { ...user };
-      const response = await axios.post(url, payload);
-      handleLogin(response.data);
+      const response: AxiosResponse<any> = await axios.post(url, payload);
+      handleLogin(response.data as string);
     } catch (error) {
       catchErrors(error, setError);
     } finally {

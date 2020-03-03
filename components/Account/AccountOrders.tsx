@@ -1,11 +1,13 @@
 import { Header, Accordion, Label, Segment, Icon, Button, List, Image } from "semantic-ui-react";
-import { useRouter } from "next/router";
+import { useRouter, NextRouter } from "next/router";
 import formatDate from "../../utils/formatData";
 
-const AccountOrders = ({ orders }) => {
-  const router = useRouter();
+import { IOrder } from "../../models/Order";
 
-  const mapOrdersToPanels = orders => {
+const AccountOrders = ({ orders }: { orders: IOrder[] }) => {
+  const router: NextRouter = useRouter();
+
+  const mapOrdersToPanels = (orders: IOrder[]) => {
     return orders.map(order => ({
       key: order._id,
       title: {

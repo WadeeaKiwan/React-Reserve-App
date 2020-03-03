@@ -6,11 +6,13 @@ import jwt from "jsonwebtoken";
 import isEmail from "validator/lib/isEmail";
 import isLength from "validator/lib/isLength";
 
+import { IUser } from "../../models/User";
+
 // Ensure that the database is connected while posting a request
 connectDb();
 
-export default async (req, res) => {
-  const { name, email, password } = req.body;
+export default async (req: any, res: any): Promise<void> => {
+  const { name, email, password }: { name: string; email: string; password: string } = req.body;
   try {
     // 1) Validate name / email / password
     if (!isLength(name, { min: 3, max: 10 })) {
@@ -22,16 +24,16 @@ export default async (req, res) => {
     }
 
     // 2) Check to see if the user already exists in the db
-    const user = await User.findOne({ email });
+    const user: IUser = await User.findOne({ email });
     if (user) {
       return res.status(422).send(`User already exists with email ${email}`);
     }
 
     // 3) --if not, hash his password
-    const hash = await bcrypt.hash(password, 10);
+    const hash: string = await bcrypt.hash(password, 10);
 
     // 4) create user
-    const newUser = await new User({
+    const newUser: IUser = await new User({
       name,
       email,
       password: hash
@@ -42,7 +44,7 @@ export default async (req, res) => {
     await new Cart({ user: newUser._id }).save();
 
     // 6) create token for the new user
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+    const token: string = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
       expiresIn: "7d"
     });
 
