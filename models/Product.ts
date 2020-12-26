@@ -7,6 +7,7 @@ export interface IProduct extends mongoose.Document {
   sku: string;
   description: string;
   mediaUrl: string;
+  _id: string;
 }
 
 const ProductSchema = new mongoose.Schema({
@@ -30,6 +31,10 @@ const ProductSchema = new mongoose.Schema({
   mediaUrl: {
     type: String,
     required: true
+  },
+  _id: {
+    type: mongoose.Types.ObjectId,
+    auto: true
   }
 });
 

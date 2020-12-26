@@ -1,4 +1,3 @@
-import { IProduct } from "../models/Product";
 import { ICart } from "../models/Cart";
 
 const calculateCartTotal = (

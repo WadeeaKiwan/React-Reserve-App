@@ -8,7 +8,7 @@ import calculateCartTotal from "../../utils/calculateCartTotal";
 import { ICart } from "../../models/Cart";
 
 const stripe: Stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2019-12-03"
+  apiVersion: "2020-08-27"
 });
 
 export default async (req: any, res: any): Promise<void> => {

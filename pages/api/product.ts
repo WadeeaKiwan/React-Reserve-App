@@ -71,6 +71,7 @@ const handleDeleteRequest = async (req: any, res: any): Promise<void> => {
     await Product.findOneAndDelete({ _id });
 
     // 2) Remove product from all carts, referenced as 'product'
+    //@ts-ignore
     await Cart.updateMany({ "products.product": _id }, { $pull: { products: { product: _id } } });
 
     res.status(204).json({});

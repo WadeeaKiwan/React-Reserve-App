@@ -81,6 +81,7 @@ const handlePutRequest = async (req, res): Promise<any> => {
     } else {
       // If not, add new product with given quantity
       const newProduct: { quantity: number; product: string } = { quantity, product: productId };
+      //@ts-ignore
       await Cart.findOneAndUpdate({ _id: cart._id }, { $addToSet: { products: newProduct } });
     }
     res.status(200).send("Cart Updated");
@@ -104,6 +105,7 @@ const handleDeleteRequest = async (req, res): Promise<any> => {
 
     const cart: ICart = await Cart.findOneAndUpdate(
       { user: userId },
+      //@ts-ignore
       { $pull: { products: { product: productId } } },
       { new: true }
     ).populate({
