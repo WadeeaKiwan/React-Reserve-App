@@ -27,4 +27,6 @@ yarn-error.log*
 # dist
 next.config.*
 now.json
+vercel.json
 .now
+.vercel
