@@ -35,4 +35,4 @@ npm run dev
 
 ## Please, visit the following link to try the app:
 
-https://react-reserve-app.wadeeakiwan.now.sh/
+https://react-reserve-app-wadeeakiwan.vercel.app/
